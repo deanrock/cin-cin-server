@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Cin Cin</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; margin-right: .5%; float: left; width:50%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; margin: 0 10px; float:left; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button><button id="b90">90</button><button id="b180">180</button><button id="bcin">cin</button>
+    </form>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      $('#b90').click(function(){
+        socket.emit('chat message', '!position90$');
+      });
+      $('#b180').click(function(){
+        socket.emit('chat message', '!position180$');
+      });
+      $('#bcin').click(function(){
+        socket.emit('chat message', '!position90$');
+        setTimeout(function() {
+          socket.emit('chat message', '!position180$');
+        }, 200);
+      });
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });
+    </script>
+  </body>
+</html>
