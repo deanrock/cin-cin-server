@@ -6,17 +6,17 @@ var net = require('net');
 var tcpClients = [];
 
 var server = net.createServer(function(socket) {
-	tcpClients.push(socket);
+    tcpClients.push(socket);
 
-	io.emit('tcp connected', socket.name);
+    io.emit('tcp connected', socket.name);
 
-	socket.on('data', function (data) {
-    	io.emit('tcp message', data);
-  	});
+    socket.on('data', function (data) {
+        io.emit('tcp message', data);
+    });
 
   socket.on('end', function () {
-	tcpClients.splice(tcpClients.indexOf(socket), 1);
-	io.emit('tcp disconnected', socket.name);
+    tcpClients.splice(tcpClients.indexOf(socket), 1);
+    io.emit('tcp disconnected', socket.name);
   });
 });
 
@@ -31,7 +31,7 @@ io.on('connection', function(socket){
     io.emit('chat message', msg);
 
     tcpClients.forEach(function (client) {
-    	client.write(msg);
+        client.write(msg);
     });
   });
 });
