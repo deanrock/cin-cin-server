@@ -18,6 +18,11 @@ var server = net.createServer(function(socket) {
         tcpClients.splice(tcpClients.indexOf(socket), 1);
         io.emit('tcp disconnected', socket.name);
     });
+
+    socket.on('error', function (err) {
+        tcpClients.splice(tcpClients.indexOf(socket), 1);
+        io.emit('tcp disconnected', socket.name);
+    });
 });
 
 server.listen(6162, '0.0.0.0');
