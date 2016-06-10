@@ -35,6 +35,18 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/cincin', function(req, res) {
+    tcpClients.forEach(function (client) {
+        client.write('!position90$');
+
+        setTimeout(function() {
+            client.write('!position180$');
+        }, 200);
+    });
+
+    res.send({'status': 'ok'});
+});
+
 io.on('connection', function(socket){
     socket.on('chat message', function(msg){
         io.emit('chat message', msg);
